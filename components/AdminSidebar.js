@@ -6,6 +6,7 @@ export default function AdminSidebar() {
 
   const adminMenuItems = [
     { href: '/admin/dashboard', label: '📊 Dashboard', icon: '📊' },
+    { href: '/admin/projects', label: '📁 Projets', icon: '📁' },
     { href: '/admin/users', label: '👥 Utilisateurs', icon: '👥' },
     { href: '/admin/models', label: '🤖 Modèles', icon: '🤖' },
     { href: '/admin/jobs', label: '⚙️ Jobs', icon: '⚙️' },
