@@ -4,13 +4,23 @@ import { useState } from 'react';
 export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(true);
 
-  const menuItems = [
+  const adminMenuItems = [
     { href: '/admin/dashboard', label: '📊 Dashboard', icon: '📊' },
     { href: '/admin/users', label: '👥 Utilisateurs', icon: '👥' },
     { href: '/admin/models', label: '🤖 Modèles', icon: '🤖' },
     { href: '/admin/jobs', label: '⚙️ Jobs', icon: '⚙️' },
     { href: '/admin/analytics', label: '📈 Analytics', icon: '📈' },
     { href: '/admin/settings', label: '⚙️ Paramètres', icon: '⚙️' },
+  ];
+
+  const userMenuItems = [
+    { href: '/', label: '🏠 Accueil', icon: '🏠' },
+    { href: '/dashboard', label: '📋 Dashboard', icon: '📋' },
+    { href: '/models', label: '🤖 Modèles', icon: '🤖' },
+    { href: '/jobs', label: '📂 Historique', icon: '📂' },
+    { href: '/profile', label: '👤 Profile', icon: '👤' },
+    { href: '/settings', label: '⚙️ Paramètres', icon: '⚙️' },
+    { href: '/docs', label: '📚 Documentation', icon: '📚' },
   ];
 
   return (
@@ -25,29 +35,49 @@ export default function AdminSidebar() {
         </button>
       </div>
 
-      <nav className="flex-1 p-4 space-y-2">
-        {menuItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-[#6366F1] transition group"
-            title={item.label}
-          >
-            <span className="text-lg">{item.icon}</span>
-            {isOpen && <span className="text-sm">{item.label}</span>}
-          </Link>
-        ))}
+      <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
+        {/* Admin Section */}
+        <div>
+          {isOpen && <p className="text-xs text-gray-500 uppercase tracking-wider px-2 mb-3 font-semibold">Admin</p>}
+          <div className="space-y-1">
+            {adminMenuItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center gap-3 px-4 py-2.5 rounded-md hover:bg-[#6366F1] transition group text-gray-300"
+                title={item.label}
+              >
+                <span className="text-lg">{item.icon}</span>
+                {isOpen && <span className="text-sm">{item.label}</span>}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Separator */}
+        <div className="border-t border-gray-700"></div>
+
+        {/* User Interface Section */}
+        <div>
+          {isOpen && <p className="text-xs text-purple-400 uppercase tracking-wider px-2 mb-3 font-semibold">📱 Interface</p>}
+          <div className="space-y-1">
+            {userMenuItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center gap-3 px-4 py-2.5 rounded-md hover:bg-purple-600 hover:text-white transition group text-purple-200"
+                title={item.label}
+              >
+                <span className="text-lg">{item.icon}</span>
+                {isOpen && <span className="text-sm">{item.label}</span>}
+              </Link>
+            ))}
+          </div>
+        </div>
       </nav>
 
       <div className="p-4 border-t border-gray-800 space-y-2">
-        <Link
-          href="/"
-          className="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-gray-800 transition text-sm"
-        >
-          <span>🏠</span>
-          {isOpen && <span>Accueil</span>}
-        </Link>
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-md hover:bg-red-900 transition text-sm text-left">
+        <button className="w-full flex items-center gap-3 px-4 py-2.5 rounded-md hover:bg-red-900 transition text-sm text-left text-red-400">
           <span>🚪</span>
           {isOpen && <span>Se déconnecter</span>}
         </button>

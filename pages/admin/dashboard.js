@@ -1,6 +1,6 @@
-import AdminSidebar from '../components/AdminSidebar';
-import AdminHeader from '../components/AdminHeader';
-import Card from '../components/Card';
+import AdminSidebar from '../../components/AdminSidebar';
+import AdminHeader from '../../components/AdminHeader';
+import Card from '../../components/Card';
 
 export default function AdminDashboard() {
   const stats = [
