@@ -1,16 +1,8 @@
-import AdminSidebar from '../../components/AdminSidebar';
-import AdminHeader from '../../components/AdminHeader';
 import Card from '../../components/Card';
 
 export default function AdminAnalytics() {
   return (
-    <div className="flex">
-      <div className="w-64">
-        <AdminSidebar />
-      </div>
-      <div className="flex-1 ml-64">
-        <AdminHeader />
-        <div className="p-6">
+    <div className="p-6">
           <h2 className="text-2xl font-bold mb-6">Analytics</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -80,8 +72,6 @@ export default function AdminAnalytics() {
               </div>
             </Card>
           </div>
-        </div>
-      </div>
     </div>
   );
 }

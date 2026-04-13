@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import AdminSidebar from '../../components/AdminSidebar';
-import AdminHeader from '../../components/AdminHeader';
 import Card from '../../components/Card';
 
 export default function AdminModels() {
@@ -12,13 +10,7 @@ export default function AdminModels() {
   ]);
 
   return (
-    <div className="flex">
-      <div className="w-64">
-        <AdminSidebar />
-      </div>
-      <div className="flex-1 ml-64">
-        <AdminHeader />
-        <div className="p-6">
+    <div className="p-6">
           <div className="mb-6 flex justify-between items-center">
             <h2 className="text-2xl font-bold">Gestion des modèles</h2>
             <button className="bg-[#6366F1] px-4 py-2 rounded-md hover:opacity-90 transition">
@@ -69,8 +61,6 @@ export default function AdminModels() {
               </table>
             </div>
           </Card>
-        </div>
-      </div>
     </div>
   );
 }

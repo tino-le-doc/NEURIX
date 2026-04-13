@@ -17,7 +17,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="w-64 h-screen bg-[#0F172A] border-r border-gray-800 p-6 flex flex-col justify-between fixed left-0 top-0 overflow-y-auto">
+    <div className="w-64 bg-[#0F172A] border-r border-gray-800 p-6 flex flex-col justify-between overflow-y-auto fixed left-0 top-0 h-screen z-50">
       <div>
         {/* Logo */}
         <Link href="/" className="text-xl font-bold gradient-text mb-10 block hover:opacity-80 transition">

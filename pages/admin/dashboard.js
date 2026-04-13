@@ -1,5 +1,3 @@
-import AdminSidebar from '../../components/AdminSidebar';
-import AdminHeader from '../../components/AdminHeader';
 import Card from '../../components/Card';
 
 export default function AdminDashboard() {
@@ -17,13 +15,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="flex">
-      <div className="w-64">
-        <AdminSidebar />
-      </div>
-      <div className="flex-1 ml-64">
-        <AdminHeader />
-        <div className="p-6 bg-gradient-to-b from-[#0B0F19] to-[#1a1f2e]">
+    <div className="p-6 bg-gradient-to-b from-[#0B0F19] to-[#1a1f2e]">
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             {stats.map((stat, idx) => (
@@ -95,8 +87,6 @@ export default function AdminDashboard() {
               </div>
             </Card>
           </div>
-        </div>
-      </div>
     </div>
   );
 }

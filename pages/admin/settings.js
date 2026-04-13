@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import AdminSidebar from '../../components/AdminSidebar';
-import AdminHeader from '../../components/AdminHeader';
 import Card from '../../components/Card';
 
 export default function AdminSettings() {
@@ -22,13 +20,7 @@ export default function AdminSettings() {
   };
 
   return (
-    <div className="flex">
-      <div className="w-64">
-        <AdminSidebar />
-      </div>
-      <div className="flex-1 ml-64">
-        <AdminHeader />
-        <div className="p-6 max-w-3xl">
+    <div className="p-6">
           <h2 className="text-2xl font-bold mb-6">Paramètres globaux</h2>
 
           <Card className="p-6 mb-6">
@@ -139,8 +131,6 @@ export default function AdminSettings() {
               Annuler
             </button>
           </div>
-        </div>
-      </div>
     </div>
   );
 }

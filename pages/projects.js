@@ -1,5 +1,3 @@
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import Card from '../components/Card';
 
 export default function Projects() {
@@ -60,11 +58,7 @@ export default function Projects() {
   };
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6">
+    <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <div>
               <h2 className="text-3xl font-bold mb-2">Mes Projets</h2>
@@ -117,8 +111,6 @@ export default function Projects() {
               </Card>
             ))}
           </div>
-        </div>
-      </div>
     </div>
   );
 }

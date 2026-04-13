@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import Card from '../components/Card';
 
 export default function Docs() {
@@ -31,11 +29,7 @@ export default function Docs() {
   }));
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6">
+    <div className="p-6">
           <div className="mb-6">
             <h2 className="text-2xl font-bold">Documentation</h2>
           </div>
@@ -86,8 +80,6 @@ export default function Docs() {
               </Card>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   );
 }

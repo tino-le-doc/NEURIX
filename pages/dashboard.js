@@ -1,7 +1,5 @@
 import { useState } from "react";
 import Link from "next/link";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import Card from "../components/Card";
 
 export default function Dashboard() {
@@ -71,11 +69,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 ml-64">
-        <Header />
-        <div className="p-6 space-y-6 bg-gradient-to-b from-[#0B0F19] to-[#1a1f2e]">
+    <div className="p-6 space-y-6 bg-gradient-to-b from-[#0B0F19] to-[#1a1f2e]">
           {/* Welcome */}
           <div>
             <h1 className="text-4xl font-bold mb-2">Bienvenue, Jean 👋</h1>
@@ -223,7 +217,5 @@ export default function Dashboard() {
             </Link>
           </Card>
         </div>
-      </div>
-    </div>
-  );
-}
+      );
+    }

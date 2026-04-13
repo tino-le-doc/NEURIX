@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import Card from '../components/Card';
 
 export default function Jobs() {
@@ -53,11 +51,7 @@ export default function Jobs() {
   };
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6">
+    <div className="p-6">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-2">Historique des jobs</h2>
             <p className="text-gray-400">Consultez tous vos jobs exécutés</p>
@@ -93,8 +87,6 @@ export default function Jobs() {
               </table>
             </div>
           </Card>
-        </div>
-      </div>
     </div>
   );
 }

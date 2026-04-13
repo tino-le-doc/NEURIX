@@ -1,5 +1,3 @@
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import Card from '../components/Card';
 
 export default function Models() {
@@ -35,11 +33,7 @@ export default function Models() {
   ];
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6">
+    <div className="p-6">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-2">Modèles disponibles</h2>
             <p className="text-gray-400">Sélectionnez un modèle pour commencer</p>
@@ -75,8 +69,6 @@ export default function Models() {
               </Card>
             ))}
           </div>
-        </div>
-      </div>
     </div>
   );
 }

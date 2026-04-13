@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import Card from '../components/Card';
 
 export default function Profile() {
@@ -41,11 +39,7 @@ export default function Profile() {
   ];
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6 max-w-5xl">
+    <div className="p-6 max-w-5xl">
           {/* Profile Header */}
           <Card className="mb-6 p-8">
             <div className="flex items-start justify-between mb-6">
@@ -206,8 +200,6 @@ export default function Profile() {
               ))}
             </div>
           </Card>
-        </div>
-      </div>
     </div>
   );
 }

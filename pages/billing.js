@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import Card from '../components/Card';
 
 export default function Billing() {
@@ -38,11 +36,7 @@ export default function Billing() {
   ];
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6">
+    <div className="p-6">
           <h2 className="text-3xl font-bold mb-2">Facturation</h2>
           <p className="text-gray-400 mb-6">Gérez vos factures et votre facturation</p>
 
@@ -158,8 +152,6 @@ export default function Billing() {
               </table>
             </div>
           </Card>
-        </div>
-      </div>
     </div>
   );
 }

@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import Card from '../components/Card';
 
 export default function Settings() {
@@ -16,11 +14,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6 max-w-2xl">
+    <div className="p-6 max-w-2xl">
           <h2 className="text-2xl font-bold mb-6">Paramètres</h2>
 
           <Card>
@@ -115,8 +109,6 @@ export default function Settings() {
               </div>
             </div>
           </Card>
-        </div>
-      </div>
     </div>
   );
 }

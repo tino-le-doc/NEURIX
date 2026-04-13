@@ -1,5 +1,3 @@
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import Card from '../components/Card';
 
 export default function Compute() {
@@ -16,11 +14,7 @@ export default function Compute() {
   ];
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6">
+    <div className="p-6">
           <h2 className="text-3xl font-bold mb-2">Ressources Compute</h2>
           <p className="text-gray-400 mb-6">Gérez vos ressources GPU et la puissance de calcul</p>
 
@@ -105,8 +99,6 @@ export default function Compute() {
               <p className="text-xs text-gray-500">Réseau optimal</p>
             </Card>
           </div>
-        </div>
-      </div>
     </div>
   );
 }
