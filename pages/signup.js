@@ -28,39 +28,52 @@ export default function Signup() {
     setMessage('');
     setLoading(true);
 
-    // Validation
+    // Client-side sanity checks (server enforces the real validation)
     if (formData.password !== formData.confirmPassword) {
       setError('Les mots de passe ne correspondent pas');
       setLoading(false);
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('Le mot de passe doit contenir au moins 6 caractères');
+    if (formData.password.length < 8) {
+      setError('Le mot de passe doit contenir au moins 8 caractères');
       setLoading(false);
       return;
     }
 
     try {
-      // En production, appeler une API pour créer le compte
-      setMessage('✓ Compte créé avec succès! Connexion...');
-      
-      // Connexion automatique
-      setTimeout(async () => {
-        const result = await signIn('credentials', {
-          email: formData.email,
-          password: formData.password,
-          redirect: false,
-        });
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-        if (result?.ok) {
-          router.push('/dashboard');
-        } else {
-          setError('Erreur lors de la connexion');
-        }
-      }, 1000);
+      const payload = await response.json();
+
+      if (!response.ok) {
+        const details = payload?.details
+          ? Object.values(payload.details).join(', ')
+          : null;
+        setError(details || payload?.error || 'Erreur lors de l\'inscription');
+        setLoading(false);
+        return;
+      }
+
+      setMessage('✓ Compte créé avec succès! Connexion...');
+
+      const result = await signIn('credentials', {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+
+      if (result?.ok) {
+        router.push('/dashboard');
+      } else {
+        setError('Compte créé, mais la connexion automatique a échoué. Veuillez vous connecter.');
+      }
     } catch (err) {
-      setError('Erreur lors de l\'inscription');
+      setError('Erreur réseau lors de l\'inscription');
     } finally {
       setLoading(false);
     }
@@ -113,7 +126,7 @@ export default function Signup() {
               onChange={handleChange}
               placeholder="••••••••"
               required
-              minLength="6"
+              minLength="8"
               className="w-full bg-[#0F172A] border border-gray-700 rounded-lg p-3 text-white outline-none focus:border-[#6366F1] focus:ring-1 focus:ring-[#6366F1] transition"
             />
           </div>
@@ -128,7 +141,7 @@ export default function Signup() {
               onChange={handleChange}
               placeholder="••••••••"
               required
-              minLength="6"
+              minLength="8"
               className="w-full bg-[#0F172A] border border-gray-700 rounded-lg p-3 text-white outline-none focus:border-[#6366F1] focus:ring-1 focus:ring-[#6366F1] transition"
             />
           </div>

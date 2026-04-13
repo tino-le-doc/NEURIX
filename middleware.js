@@ -1,17 +1,35 @@
 import { withAuth } from "next-auth/middleware";
 
+const PROTECTED_PATHS = [
+  "/dashboard",
+  "/projects",
+  "/compute",
+  "/billing",
+  "/models",
+  "/jobs",
+  "/profile",
+  "/settings",
+  "/admin",
+];
+
+const ADMIN_PREFIX = "/admin";
+
 export default withAuth({
   callbacks: {
     authorized({ token, req }) {
-      // Les pages protégées nécessitent une authentification
-      const protectedPaths = ["/dashboard", "/projects", "/compute", "/billing", "/models", "/jobs", "/profile", "/settings", "/admin"];
-      
-      const isProteted = protectedPaths.some(path => req.nextUrl.pathname.startsWith(path));
-      
-      if (isProteted) {
-        return !!token;
+      const { pathname } = req.nextUrl;
+
+      const isProtected = PROTECTED_PATHS.some((path) =>
+        pathname.startsWith(path)
+      );
+      if (!isProtected) return true;
+      if (!token) return false;
+
+      // Admin namespace is gated on the `admin` role
+      if (pathname.startsWith(ADMIN_PREFIX) && token.role !== "admin") {
+        return false;
       }
-      
+
       return true;
     },
   },
