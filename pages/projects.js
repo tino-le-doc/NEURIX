@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import Card from '../components/Card';
 
 export default function Projects() {
-  const projects = [
+  const [showModal, setShowModal] = useState(false);
+  const [projects, setProjects] = useState([
     {
       id: 1,
       name: 'Chatbot IA',
@@ -42,7 +44,47 @@ export default function Projects() {
       jobs: 23,
       icon: '💻',
     },
-  ];
+  ]);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    model: 'GPT-3',
+    icon: '🤖',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleCreateProject = (e) => {
+    e.preventDefault();
+    
+    if (!formData.name.trim()) {
+      alert('Le nom du projet est requis');
+      return;
+    }
+
+    const newProject = {
+      id: projects.length + 1,
+      name: formData.name,
+      description: formData.description,
+      status: 'Nouveau',
+      model: formData.model,
+      created: new Date().toLocaleDateString('fr-FR', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+      }),
+      jobs: 0,
+      icon: formData.icon,
+    };
+
+    setProjects([newProject, ...projects]);
+    setFormData({ name: '', description: '', model: 'GPT-3', icon: '🤖' });
+    setShowModal(false);
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -52,6 +94,8 @@ export default function Projects() {
         return 'bg-blue-900 text-blue-200';
       case 'En pause':
         return 'bg-yellow-900 text-yellow-200';
+      case 'Nouveau':
+        return 'bg-purple-900 text-purple-200';
       default:
         return 'bg-gray-900 text-gray-200';
     }
@@ -64,7 +108,9 @@ export default function Projects() {
               <h2 className="text-3xl font-bold mb-2">Mes Projets</h2>
               <p className="text-gray-400">Gérez vos projets IA</p>
             </div>
-            <button className="bg-[#6366F1] px-6 py-3 rounded-md hover:opacity-90 transition font-semibold flex items-center gap-2">
+            <button 
+              onClick={() => setShowModal(true)}
+              className="bg-[#6366F1] px-6 py-3 rounded-md hover:opacity-90 transition font-semibold flex items-center gap-2">
               ➕ Nouveau projet
             </button>
           </div>
@@ -111,6 +157,91 @@ export default function Projects() {
               </Card>
             ))}
           </div>
+
+      {/* Modal pour créer un nouveau projet */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-md p-6">
+            <h2 className="text-2xl font-bold mb-4">➕ Créer un nouveau projet</h2>
+
+            <form onSubmit={handleCreateProject} className="space-y-4">
+              {/* Nom */}
+              <div>
+                <label className="block text-sm font-medium mb-2">Nom du projet</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Ex: Mon super projet IA"
+                  className="w-full bg-[#0F172A] border border-gray-700 rounded-lg p-3 outline-none focus:border-[#6366F1] transition"
+                  autoFocus
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium mb-2">Description</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  placeholder="Décrivez votre projet..."
+                  className="w-full bg-[#0F172A] border border-gray-700 rounded-lg p-3 outline-none focus:border-[#6366F1] transition resize-none h-20"
+                />
+              </div>
+
+              {/* Modèle */}
+              <div>
+                <label className="block text-sm font-medium mb-2">Modèle IA</label>
+                <select
+                  name="model"
+                  value={formData.model}
+                  onChange={handleInputChange}
+                  className="w-full bg-[#0F172A] border border-gray-700 rounded-lg p-3 outline-none focus:border-[#6366F1] transition"
+                >
+                  <option>GPT-3</option>
+                  <option>DALL-E</option>
+                  <option>Whisper</option>
+                  <option>Codex</option>
+                  <option>BERT</option>
+                </select>
+              </div>
+
+              {/* Icône */}
+              <div>
+                <label className="block text-sm font-medium mb-2">Emoji du projet</label>
+                <input
+                  type="text"
+                  name="icon"
+                  value={formData.icon}
+                  onChange={handleInputChange}
+                  placeholder="🤖"
+                  maxLength="2"
+                  className="w-full bg-[#0F172A] border border-gray-700 rounded-lg p-3 outline-none focus:border-[#6366F1] transition text-2xl"
+                />
+              </div>
+
+              {/* Boutons */}
+              <div className="flex gap-3 pt-4 border-t border-gray-700">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#6366F1] hover:opacity-90 px-4 py-2 rounded-lg font-semibold transition"
+                >
+                  ✓ Créer
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition"
+                >
+                  ✕ Annuler
+                </button>
+              </div>
+            </form>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
