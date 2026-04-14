@@ -3,7 +3,7 @@ import Card from '../../components/Card';
 
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
-    siteName: 'Neurix',
+    siteName: 'neu-rix',
     maintenanceMode: false,
     maxRequestsPerDay: 50000,
     maxJobDuration: 300,

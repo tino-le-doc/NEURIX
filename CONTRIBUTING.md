@@ -1,4 +1,4 @@
-# Contributing to Neurix UI
+# Contributing to neu-rix UI
 
 Nous apprécions votre contribution ! Ce document fournit les lignes directrices pour contribuer au projet.
 
