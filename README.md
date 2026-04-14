@@ -16,8 +16,12 @@ Neurix est une plateforme web moderne permettant d'accéder facilement à des mo
 
 ## 🛠️ Stack Technologique
 
-- **Frontend**: Next.js 14.2.5, React 18.2.0
+- **Frontend**: Next.js 15.5.15, React 18.2.0
 - **Styling**: Tailwind CSS 3.4.4
+- **Auth**: NextAuth.js 4 (JWT, bcrypt)
+- **Validation**: Zod
+- **Tests**: Jest + React Testing Library
+- **Qualité**: ESLint (next/core-web-vitals) + Prettier
 - **Build**: PostCSS 8.4.39, Autoprefixer 10.4.19
 - **Node.js** version 18+
 
@@ -45,6 +49,47 @@ Accédez à http://localhost:3000
 npm run build
 npm start
 ```
+
+**Qualité & tests :**
+```bash
+npm run lint         # ESLint
+npm run format       # Prettier (écriture)
+npm run format:check # Prettier (vérification CI)
+npm test             # Jest + React Testing Library
+npm run test:ci      # Jest avec coverage
+```
+
+## 🔐 Variables d'environnement
+
+Copiez `.env.example` vers `.env.local` puis remplissez :
+
+```bash
+cp .env.example .env.local
+```
+
+Variables importantes :
+
+| Variable | Description |
+|----------|-------------|
+| `NEXTAUTH_SECRET` | Secret JWT (`openssl rand -base64 48`). **Requis en production.** |
+| `NEXTAUTH_URL` | URL canonique de l'application |
+| `NEXT_PUBLIC_API_URL` | URL de l'API publique |
+| `LOG_LEVEL` | `debug` \| `info` \| `warn` \| `error` |
+
+## 🔌 API
+
+| Route | Méthode | Auth | Description |
+|-------|---------|------|-------------|
+| `/api/health` | GET | — | Healthcheck |
+| `/api/signup` | POST | — | Création de compte (bcrypt) |
+| `/api/auth/[...nextauth]` | * | — | NextAuth |
+| `/api/models` | GET | ✓ | Catalogue des modèles |
+| `/api/projects` | GET/POST | ✓ | Liste & création |
+| `/api/projects/[id]` | GET/PUT/DELETE | ✓ | CRUD |
+| `/api/jobs` | GET/POST | ✓ | Liste & soumission |
+| `/api/jobs/[id]` | GET/DELETE | ✓ | Détail / annulation |
+| `/api/billing` | GET | ✓ | Évènements & synthèse |
+| `/api/admin/users` | GET | admin | Liste utilisateurs |
 
 ## 📁 Structure du projet
 

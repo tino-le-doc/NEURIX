@@ -10,9 +10,13 @@ node_modules/
 /.next/
 /out/
 
+# Local file-backed store (dev "database")
+/.data/
+
 # Misc
 .DS_Store
 *.pem
+*.zip
 
 # Debug
 npm-debug.log*
