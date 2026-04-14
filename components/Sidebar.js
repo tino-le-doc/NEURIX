@@ -8,6 +8,7 @@ export default function Sidebar() {
     { href: '/dashboard', label: 'Dashboard', icon: '📊' },
     { href: '/projects', label: 'Projets', icon: '📁' },
     { href: '/compute', label: 'Compute', icon: '🖥️' },
+    { href: '/my-gpus', label: 'Mes GPU', icon: '⚡' },
     { href: '/billing', label: 'Facturation', icon: '💳' },
     { href: '/models', label: 'Modèles', icon: '🤖' },
     { href: '/jobs', label: 'Historique', icon: '📂' },

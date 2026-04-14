@@ -1,6 +1,10 @@
 import { getStripe, PLANS } from "@/lib/stripe";
 import db from "@/lib/db";
 import logger from "@/lib/logger";
+import { getGpuOffer } from "@/lib/gpuCatalog";
+import { provisionInstance } from "@/lib/gpuProvider";
+import { updateInstance } from "@/lib/gpuInstances";
+import { signJupyterToken, buildJupyterUrl } from "@/lib/gpuAccess";
 
 /**
  * Stripe webhook endpoint.
@@ -67,6 +71,56 @@ export default async function handler(req, res) {
       case "checkout.session.completed": {
         const s = event.data.object;
         const userId = s.metadata?.neurix_user_id;
+
+        // GPU rental flow (Phase 2 — Cloud IA): provision the instance
+        // upstream and persist a Jupyter access URL for the user.
+        if (s.metadata?.neurix_kind === "gpu_rental") {
+          const instanceId = s.metadata?.neurix_gpu_instance_id;
+          const offerId = s.metadata?.offer_id;
+          const hours = Number(s.metadata?.hours || 1);
+          const offer = getGpuOffer(offerId);
+          if (instanceId && offer && userId) {
+            try {
+              const provisioned = await provisionInstance({ offer, userId });
+              const jupyterToken = signJupyterToken({ instanceId, userId });
+              const jupyterUrl = buildJupyterUrl({
+                host: provisioned.host,
+                token: jupyterToken,
+              });
+              updateInstance(instanceId, {
+                status: "provisioning",
+                providerId: provisioned.providerId,
+                provider: provisioned.provider,
+                host: provisioned.host,
+                region: provisioned.region,
+                jupyterUrl,
+                paidAt: new Date().toISOString(),
+              });
+              db.create("billing_events", {
+                userId,
+                service: `gpu:${offerId}`,
+                amount: (s.amount_total || 0) / 100,
+                description: `Location GPU ${offer.name} (${hours}h)`,
+              });
+              logger.info("gpu rental provisioned", {
+                userId,
+                instanceId,
+                providerId: provisioned.providerId,
+              });
+            } catch (err) {
+              logger.error("gpu provision failed", {
+                instanceId,
+                message: err.message,
+              });
+              updateInstance(instanceId, {
+                status: "failed",
+                error: err.message,
+              });
+            }
+          }
+          break;
+        }
+
         const plan = s.metadata?.plan;
         if (userId && plan) {
           db.update("users", userId, {
