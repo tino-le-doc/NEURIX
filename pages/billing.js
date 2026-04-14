@@ -1,8 +1,57 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Card from '../components/Card';
 
 export default function Billing() {
+  const router = useRouter();
   const [selectedMonth, setSelectedMonth] = useState('avril');
+  const [upgrading, setUpgrading] = useState(null);
+  const [upgradeError, setUpgradeError] = useState('');
+
+  const checkoutBanner = router.query.status === 'success'
+    ? { type: 'success', text: '✅ Merci ! Votre abonnement a été activé.' }
+    : router.query.status === 'cancelled'
+    ? { type: 'warning', text: 'Checkout annulé. Aucun paiement effectué.' }
+    : null;
+
+  async function startCheckout(plan) {
+    setUpgrading(plan);
+    setUpgradeError('');
+    try {
+      const res = await fetch('/api/billing/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan }),
+      });
+      const payload = await res.json();
+      if (!res.ok) {
+        setUpgradeError(payload?.error || 'Erreur lors du checkout');
+        return;
+      }
+      window.location.href = payload.url;
+    } catch (err) {
+      setUpgradeError('Erreur réseau');
+    } finally {
+      setUpgrading(null);
+    }
+  }
+
+  async function openPortal() {
+    setUpgrading('portal');
+    try {
+      const res = await fetch('/api/billing/portal', { method: 'POST' });
+      const payload = await res.json();
+      if (!res.ok) {
+        setUpgradeError(payload?.error || 'Portail indisponible');
+        return;
+      }
+      window.location.href = payload.url;
+    } catch (err) {
+      setUpgradeError('Erreur réseau');
+    } finally {
+      setUpgrading(null);
+    }
+  }
 
   const billingHistory = [
     {
@@ -38,7 +87,68 @@ export default function Billing() {
   return (
     <div className="p-6">
           <h2 className="text-3xl font-bold mb-2">Facturation</h2>
-          <p className="text-gray-400 mb-6">Gérez vos factures et votre facturation</p>
+          <p className="text-gray-400 mb-6">Gérez vos factures et votre abonnement</p>
+
+          {checkoutBanner && (
+            <div
+              className={`mb-4 p-3 rounded-lg border ${
+                checkoutBanner.type === 'success'
+                  ? 'bg-green-900/20 border-green-700 text-green-300'
+                  : 'bg-yellow-900/20 border-yellow-700 text-yellow-200'
+              }`}
+            >
+              {checkoutBanner.text}
+            </div>
+          )}
+
+          {upgradeError && (
+            <div className="mb-4 p-3 rounded-lg border bg-red-900/20 border-red-700 text-red-300">
+              {upgradeError}
+            </div>
+          )}
+
+          {/* Plans */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <Card className="p-6 border border-[#6366F1]/30">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-xl font-bold">Pro</h3>
+                <span className="text-2xl font-bold text-[#6366F1]">€49<span className="text-sm text-gray-400">/mois</span></span>
+              </div>
+              <ul className="text-sm text-gray-400 space-y-1 mb-4">
+                <li>✓ 500k tokens / mois</li>
+                <li>✓ Tous les modèles disponibles</li>
+                <li>✓ Historique illimité</li>
+              </ul>
+              <button
+                onClick={() => startCheckout('pro')}
+                disabled={upgrading === 'pro'}
+                className="w-full bg-[#6366F1] hover:opacity-90 disabled:opacity-50 py-2 rounded font-semibold transition"
+              >
+                {upgrading === 'pro' ? '⟳ Redirection…' : 'Choisir Pro'}
+              </button>
+            </Card>
+
+            <Card className="p-6 border border-[#8b5cf6]/40 relative">
+              <span className="absolute -top-2 right-4 bg-[#8b5cf6] text-xs font-bold px-2 py-0.5 rounded">RECOMMANDÉ</span>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-xl font-bold">Agency</h3>
+                <span className="text-2xl font-bold text-[#8b5cf6]">€149<span className="text-sm text-gray-400">/mois</span></span>
+              </div>
+              <ul className="text-sm text-gray-400 space-y-1 mb-4">
+                <li>✓ 5 sièges inclus</li>
+                <li>✓ Reporting par client</li>
+                <li>✓ Multi-providers (OpenAI + Anthropic)</li>
+                <li>✓ Support FR prioritaire</li>
+              </ul>
+              <button
+                onClick={() => startCheckout('agency')}
+                disabled={upgrading === 'agency'}
+                className="w-full bg-[#8b5cf6] hover:opacity-90 disabled:opacity-50 py-2 rounded font-semibold transition"
+              >
+                {upgrading === 'agency' ? '⟳ Redirection…' : 'Choisir Agency'}
+              </button>
+            </Card>
+          </div>
 
           {/* Current Balance */}
           <Card className="p-8 mb-6 bg-gradient-to-r from-[#6366F1]/10 to-[#8b5cf6]/10 border border-[#6366F1]/20">
@@ -57,8 +167,12 @@ export default function Billing() {
                   </div>
                 </div>
               </div>
-              <button className="bg-[#6366F1] px-6 py-3 rounded-md hover:opacity-90 transition font-semibold h-fit">
-                💳 Payer maintenant
+              <button
+                onClick={openPortal}
+                disabled={upgrading === 'portal'}
+                className="bg-[#6366F1] px-6 py-3 rounded-md hover:opacity-90 disabled:opacity-50 transition font-semibold h-fit"
+              >
+                {upgrading === 'portal' ? '⟳ Chargement…' : '⚙️ Gérer mon abonnement'}
               </button>
             </div>
           </Card>
