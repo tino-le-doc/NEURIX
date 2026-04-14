@@ -7,11 +7,11 @@ export default function Docs() {
   const docs = {
     'getting-started': {
       title: 'Démarrage rapide',
-      content: 'Bienvenue dans la documentation Neurix. Commencez par créer un compte et explorer les modèles disponibles.',
+      content: 'Bienvenue dans la documentation neu-rix. Commencez par créer un compte et explorer les modèles disponibles.',
     },
     'api': {
       title: 'API Reference',
-      content: 'Consultez la documentation complète des endpoints API pour intégrer Neurix dans vos applications.',
+      content: 'Consultez la documentation complète des endpoints API pour intégrer neu-rix dans vos applications.',
     },
     'examples': {
       title: 'Exemples',
@@ -19,7 +19,7 @@ export default function Docs() {
     },
     'faq': {
       title: 'FAQ',
-      content: 'Réponses aux questions fréquemment posées sur Neurix.',
+      content: 'Réponses aux questions fréquemment posées sur neu-rix.',
     },
   };
 

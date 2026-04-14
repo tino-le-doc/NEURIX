@@ -1,8 +1,8 @@
-# 🚀 Neurix UI
+# 🚀 neu-rix UI
 
 La puissance de l'IA accessible à tous.
 
-Neurix est une plateforme web moderne permettant d'accéder facilement à des modèles d'intelligence artificielle sans complexité. Construite avec **Next.js**, **React** et **Tailwind CSS**.
+neu-rix est une plateforme web moderne permettant d'accéder facilement à des modèles d'intelligence artificielle sans complexité. Construite avec **Next.js**, **React** et **Tailwind CSS**.
 
 ## ✨ Fonctionnalités
 
@@ -29,8 +29,8 @@ Neurix est une plateforme web moderne permettant d'accéder facilement à des mo
 
 ```bash
 # Cloner le repository
-git clone https://github.com/votre-username/neurix-ui.git
-cd neurix-ui
+git clone https://github.com/votre-username/neu-rix-ui.git
+cd neu-rix-ui
 
 # Installer les dépendances
 npm install
@@ -94,7 +94,7 @@ Variables importantes :
 ## 📁 Structure du projet
 
 ```
-neurix-ui/
+neu-rix-ui/
 ├── pages/              # Pages Next.js
 │   ├── index.js       # Homepage
 │   ├── dashboard.js    # Dashboard principal
@@ -177,4 +177,4 @@ Pour toute question ou problème, veuillez ouvrir une issue sur GitHub.
 
 ---
 
-**Neurix** - Démocratiser l'accès à l'IA 🤖
+**neu-rix** - Démocratiser l'accès à l'IA 🤖

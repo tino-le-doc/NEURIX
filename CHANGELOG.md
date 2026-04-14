@@ -1,4 +1,4 @@
-# Neurix UI
+# neu-rix UI
 
 ## 📝 Changelog
 

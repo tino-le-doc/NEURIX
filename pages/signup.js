@@ -83,7 +83,7 @@ export default function Signup() {
     <div className="min-h-screen flex items-center justify-center px-6 bg-[#0B0F19]">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold mb-2">⚡ Neurix</h1>
+          <h1 className="text-4xl font-bold mb-2">⚡ neu-rix</h1>
           <p className="text-gray-400">Rejoignez la plateforme IA</p>
         </div>
 
@@ -183,7 +183,7 @@ export default function Signup() {
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-gray-800 text-center">
           <p className="text-gray-500 text-xs">
-            Plateforme de développement | Neurix v1.0.0
+            Plateforme de développement | neu-rix v1.0.0
           </p>
         </div>
       </div>

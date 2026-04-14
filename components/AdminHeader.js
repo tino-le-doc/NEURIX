@@ -8,7 +8,7 @@ export default function AdminHeader() {
           <span className="bg-gradient-to-r from-red-600 to-pink-600 text-xs px-3 py-1 rounded-full font-semibold text-white">
             🔐 MODE ADMIN
           </span>
-          <h1 className="text-2xl font-bold">Neurix Administration</h1>
+          <h1 className="text-2xl font-bold">neu-rix Administration</h1>
         </div>
         <p className="text-gray-400 text-sm">Gérez la plateforme • Client: <span className="text-purple-400">v1.0.0</span></p>
       </div>
