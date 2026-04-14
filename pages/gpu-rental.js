@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useSession, signIn } from "next-auth/react";
 import Card from "../components/Card";
 
 export default function GpuRental() {
+  const { data: session } = useSession();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hoursByOffer, setHoursByOffer] = useState({});
+  const [rentingId, setRentingId] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -30,6 +33,33 @@ export default function GpuRental() {
       cancelled = true;
     };
   }, []);
+
+  async function handleRent(offer) {
+    if (!session) {
+      signIn(undefined, { callbackUrl: "/gpu-rental" });
+      return;
+    }
+    const hours = Number(hoursByOffer[offer.id] || 1);
+    setRentingId(offer.id);
+    setError(null);
+    try {
+      const res = await fetch("/api/gpu/rent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ offerId: offer.id, hours }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Impossible de démarrer la location");
+      }
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      setError(err.message);
+      setRentingId(null);
+    }
+  }
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -81,19 +111,42 @@ export default function GpuRental() {
                 ))}
               </div>
 
-              <div className="mt-auto pt-4 border-t border-gray-800 flex items-baseline justify-between">
-                <div>
-                  <span className="text-3xl font-bold">
-                    {offer.price.toFixed(2)}
-                  </span>
-                  <span className="text-gray-400 ml-1">€/h</span>
+              <div className="mt-auto pt-4 border-t border-gray-800">
+                <div className="flex items-baseline justify-between mb-3">
+                  <div>
+                    <span className="text-3xl font-bold">
+                      {offer.price.toFixed(2)}
+                    </span>
+                    <span className="text-gray-400 ml-1">€/h</span>
+                  </div>
                 </div>
-                <Link
-                  href="/signup"
-                  className="bg-[#6366F1] hover:bg-[#5558e6] px-4 py-2 rounded-md text-sm font-medium"
-                >
-                  Louer
-                </Link>
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-gray-400" htmlFor={`hours-${offer.id}`}>
+                    Heures
+                  </label>
+                  <input
+                    id={`hours-${offer.id}`}
+                    type="number"
+                    min="1"
+                    max="168"
+                    value={hoursByOffer[offer.id] || 1}
+                    onChange={(e) =>
+                      setHoursByOffer((prev) => ({
+                        ...prev,
+                        [offer.id]: e.target.value,
+                      }))
+                    }
+                    className="w-16 bg-[#0B0F19] border border-gray-800 rounded px-2 py-1 text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRent(offer)}
+                    disabled={rentingId === offer.id}
+                    className="flex-1 bg-[#6366F1] hover:bg-[#5558e6] px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
+                  >
+                    {rentingId === offer.id ? "Redirection…" : "Louer"}
+                  </button>
+                </div>
               </div>
             </Card>
           ))}
